@@ -1,0 +1,20 @@
+# PyPI configuration for publishing to artifactory
+# Place this in your home directory as ~/.pypirc
+
+[distutils]
+index-servers =
+    pypi
+    artifactory
+
+[pypi]
+repository = https://upload.pypi.org/legacy/
+username = __token__
+password = <your-pypi-token>
+
+[artifactory]
+repository = https://your-artifactory.com/artifactory/api/pypi/your-repo/
+username = <your-username>
+password = <your-password>
+# OR use token authentication:
+# username = __token__
+# password = <your-artifactory-token>
