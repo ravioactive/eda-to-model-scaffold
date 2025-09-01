@@ -1,10 +1,18 @@
 # EDA-Driven Model Selection Playbook
 
-How to use this
-	1.	Run a simple, honest baseline (linear/logistic with proper preprocessing) and collect diagnostics.
-	2.	From EDA + diagnostics, identify patterns (non-linearity, multicollinearity, imbalance, outliers, missingness, etc.).
-	3.	Use the pattern → model mapping below to shortlist candidates and rule out poor fits.
-	4.	Compare on the right metrics (and for classifiers, calibrated probability quality), then choose the most interpretable model that meets your performance target.
+## How to Use This Guide
+
+1. **Run baseline**: Simple, honest baseline (linear/logistic with proper preprocessing) and collect diagnostics
+2. **Identify patterns**: From EDA + diagnostics, identify patterns:
+   - Non-linearity
+   - Multicollinearity  
+   - Class imbalance
+   - Outliers
+   - Missingness patterns
+   - Other data characteristics
+3. **Shortlist candidates**: Use the pattern → model mapping below to shortlist candidates and rule out poor fits
+4. **Compare & select**: Compare on the right metrics (and for classifiers, calibrated probability quality), then choose the most **interpretable model** that meets your performance target
+
 
 ## How to Use This Guide
 
@@ -82,39 +90,47 @@ Use these to decide and defend your model choice:
 
 ⸻
 
-Deep learning: when it’s warranted on tabular data
-	•	Consider MLP (with embeddings for high-cardinality categoricals) when you have large data, complex interactions, or mixed modalities (text, images + tabular).
-	•	Add monotonic/shape constraints or use surrogate explainers (SHAP, integrated gradients).
-	•	If data is modest or purely tabular, GBMs typically match or beat MLPs with far better training simplicity and interpretability.
+## Deep Learning: When It's Warranted on Tabular Data
 
-⸻
+- **Consider MLP** (with embeddings for high-cardinality categoricals) when you have:
+  - Large datasets
+  - Complex interactions
+  - Mixed modalities (text, images + tabular)
+- **Add constraints**: Monotonic/shape constraints or use surrogate explainers (SHAP, integrated gradients)
+- **Reality check**: If data is modest or purely tabular, GBMs typically match or beat MLPs with far better training simplicity and interpretability
 
-What to call “unsuitable” (explicit rules of thumb)
-	•	Plain OLS/logistic when EDA shows clear non-linearity/interactions and you’re unwilling to add terms/transforms.
-	•	Unpenalized linear/logistic in the presence of multicollinearity or p ≫ n.
-	•	High-variance models (deep nets, large RF/GBM) with very small datasets.
-	•	Naive OHE linear/logistic with very high-cardinality categoricals (unless heavily regularized or encoded).
-	•	Uncalibrated classifiers when probabilities matter (choose logistic, calibrated GBM, or apply calibration).
-	•	OLS under heteroscedasticity if you need valid intervals (prefer WLS/robust/GBM).
-	•	kNN (both tasks) with high dimensional sparse features (curse of dimensionality) or many outliers.
-	•	Models that cannot handle missingness unless you impute properly (and record missingness).
+---
 
-⸻
+## What to Call "Unsuitable" (Explicit Rules of Thumb)
 
-Two concrete, EDA-driven selection recipes
+| **Scenario** | **Unsuitable Approach** | **Why** |
+|--------------|-------------------------|---------|
+| **Non-linearity/interactions** | Plain OLS/logistic | Unwilling to add terms/transforms |
+| **Multicollinearity or p ≫ n** | Unpenalized linear/logistic | Overfitting and instability |
+| **Very small datasets** | High-variance models (deep nets, large RF/GBM) | Insufficient data for complexity |
+| **High-cardinality categoricals** | Naive OHE linear/logistic | Unless heavily regularized or encoded |
+| **Probabilities matter** | Uncalibrated classifiers | Choose logistic, calibrated GBM, or apply calibration |
+| **Heteroscedasticity + intervals** | OLS | Prefer WLS/robust/GBM for valid intervals |
+| **High-dimensional sparse + outliers** | kNN (both tasks) | Curse of dimensionality |
+| **Missing data** | Models that can't handle missingness | Unless you impute properly and record missingness |
 
-Regression (tabular)
-	1.	Run ridge/EN baseline → check residuals (shape), VIF, heteroscedasticity.
-	2.	If non-linearity: try GAM/EBM; if big interactions or performance gap persists → GBM (optionally monotonic).
-	3.	If outliers/heavy tails: Huber or GBM; if heteroscedastic: Quantile GBM or WLS.
-	4.	If high-cardinality categoricals or lots of missing: XGBoost/LightGBM.
+---
 
-Classification (tabular)
-	1.	Penalized logistic with class_weight (if imbalanced) + calibration → inspect coefficients and ROC/PR curves.
-	2.	If boundary is clearly non-linear or gains needed: EBM → GBM (+ SHAP + calibration).
-	3.	If many high-cardinality categoricals: GBM with target/cat encoding; if very large data: MLP with embeddings.
-	4.	Keep the most interpretable model that hits the metric goal (PR-AUC / ROC-AUC / F1).
+## Two Concrete, EDA-Driven Selection Recipes
 
+### Regression (Tabular)
+
+1. **Baseline**: Run Ridge/Elastic Net → check residuals (shape), VIF, heteroscedasticity
+2. **Non-linearity**: Try GAM/EBM; if big interactions or performance gap persists → GBM (optionally monotonic)
+3. **Outliers/heavy tails**: Huber or GBM; if heteroscedastic → Quantile GBM or WLS
+4. **High-cardinality categoricals or missing data**: XGBoost/LightGBM
+
+### Classification (Tabular)
+
+1. **Baseline**: Penalized logistic with `class_weight` (if imbalanced) + calibration → inspect coefficients and ROC/PR curves
+2. **Non-linear boundary**: If clearly non-linear or gains needed → EBM → GBM (+ SHAP + calibration)
+3. **High-cardinality categoricals**: GBM with target/categorical encoding; if very large data → MLP with embeddings
+4. **Final selection**: Keep the most **interpretable model** that hits the metric goal (PR-AUC / ROC-AUC / F1)
 ⸻
 
 If you want, I can turn this into a one-page checklist (with exact sklearn/lightgbm/xgboost settings for each scenario and what plots/tests to run in what order).

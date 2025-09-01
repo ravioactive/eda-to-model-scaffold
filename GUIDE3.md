@@ -1,13 +1,36 @@
-Here’s a compact, EDA-driven one-page checklist with exact starter settings and the order of plots/tests to run. Copy/paste the snippets and adjust minimally.
+# EDA-Driven One-Page Checklist
 
-General setup (both tasks)
-	•	Split: train/valid/test (60/20/20), random_state=42, stratify for classification.
-	•	Preprocess (sklearn ColumnTransformer)
-	•	Num: SimpleImputer(strategy="median"), StandardScaler()
-	•	Cat: SimpleImputer(strategy="most_frequent"), OneHotEncoder(handle_unknown="ignore", min_frequency=10)
-	•	Metrics:
-	•	Regression: RMSE (select), MAE, R².
-	•	Classification: if imbalance > 1:5 → PR-AUC, else ROC-AUC; also Brier + calibration curve.
+*Compact checklist with exact starter settings and the order of plots/tests to run. Copy/paste the snippets and adjust minimally.*
+
+## General Setup (Both Tasks)
+
+### Data Splitting
+```python
+# Split: train/valid/test (60/20/20)
+train_test_split(random_state=42, stratify=y)  # for classification
+```
+
+### Preprocessing (sklearn ColumnTransformer)
+
+#### Numerical Features
+```python
+SimpleImputer(strategy="median")
+StandardScaler()
+```
+
+#### Categorical Features
+```python
+SimpleImputer(strategy="most_frequent")
+OneHotEncoder(handle_unknown="ignore", min_frequency=10)
+```
+
+### Metrics Selection
+
+| **Task** | **Primary Metric** | **Secondary Metrics** | **Condition** |
+|----------|-------------------|----------------------|---------------|
+| **Regression** | RMSE (for selection) | MAE, R² | Always |
+| **Classification** | PR-AUC | Brier + calibration curve | If imbalance > 1:5 |
+| **Classification** | ROC-AUC | Brier + calibration curve | If balanced |
 
 ## General Setup (Both Tasks)
 
