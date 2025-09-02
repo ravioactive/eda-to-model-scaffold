@@ -9,13 +9,13 @@ build-backend = "poetry.core.masonry.api"
 name = "eda-to-model-scaffold"
 version = "0.1.0"
 description = "EDA-driven model selection scaffold with interpretability-first pipelines for tabular ML"
-authors = ["Your Name <your.email@example.com>"]
-maintainers = ["Your Name <your.email@example.com>"]
+authors = ["Ravi Sharma <ravioactive@example.com>"]
+maintainers = ["Ravi Sharma <ravioactive@example.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/yourusername/eda-to-model-scaffold"
-repository = "https://github.com/yourusername/eda-to-model-scaffold"
-documentation = "https://github.com/yourusername/eda-to-model-scaffold#readme"
+homepage = "https://github.com/ravioactive/eda-to-model-scaffold"
+repository = "https://github.com/ravioactive/eda-to-model-scaffold"
+documentation = "https://github.com/ravioactive/eda-to-model-scaffold#readme"
 keywords = [
     "machine-learning",
     "tabular-data", 

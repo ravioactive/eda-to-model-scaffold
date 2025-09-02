@@ -468,3 +468,19 @@ python scripts/compare.py --path results/compare.json --task classification --by
 # For regression, compare by RMSE (lower is better)
 python scripts/compare.py --path results/compare.json --task regression --metric rmse
 ```
+
+```mermaid
+graph LR
+    A[Raw Python Code] --> B[SETUP Guide]
+    B --> C[Configured Package]
+    C --> D[WORKFLOW Guide]
+    D --> E[Production Artifactory]
+    
+    B --> F[Modern Structure]
+    B --> G[Build System]
+    B --> H[Dev Tools]
+    
+    D --> I[JFrog Artifactory]
+    D --> J[Nexus Repository]
+    D --> K[Azure Artifacts]
+```

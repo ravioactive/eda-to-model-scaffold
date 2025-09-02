@@ -19,6 +19,7 @@ graph LR
     D --> J[Nexus Repository]
     D --> K[Azure Artifacts]
 ```
+----
 
 **Prerequisites**: If you're starting with raw Python code, first complete the [ARTIFACTORY_WORKFLOW_SETUP.md](./ARTIFACTORY_WORKFLOW_SETUP.md) guide to prepare your project. This workflow guide assumes you have a properly configured Python package.
 
